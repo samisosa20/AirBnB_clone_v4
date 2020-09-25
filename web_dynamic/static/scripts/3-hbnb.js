@@ -17,13 +17,24 @@ $(document).ready(() => {
     else $("DIV#api_status").removeClass("available").addClass("disabled");
   });
 
-  $.get(
-    "http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/places_search/",
-    function (data) {
-      $(".places").html("");
+  $.ajax({
+    url: "http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/places_search/",
+    type: 'post',
+    data: '{}',
+    headers: {'Content-Type': 'application/json'},
+    dataType: 'json',
+    success: function (data) {
       //console.log(data);
       let places = "";
+      let description = "";
+      let guest = "";
+      let bath = "";
+      let bed = "";
       $.each(data, function (index, value) {
+	description = value.description === null ? 'None' : value.description;
+	guest = value.max_guest > 1 ? 'Guests' : 'Guest';
+        bath = value.number_bathrooms > 1 ? 'Bathrooms' : 'Bathroom';
+        bed = value.number_rooms > 1 ? 'Bedrooms' : 'Bedroom';
         places =
           places +
           "<article>" +
@@ -38,27 +49,26 @@ $(document).ready(() => {
           "<div class='information'>" +
           "<div class='max_guest'>" +
           value.max_guest +
-          " Guests</div>" +
+          " " + guest + "</div>" +
           "<div class='number_rooms'>" +
           value.number_rooms +
-          " Bedrooms</div>" +
+          " " + bed + "</div>" +
           "<div class='number_bathrooms'>" +
           value.number_bathrooms +
-          " Bathrooms</div>" +
+          " " + bath + "</div>" +
           "</div>" +
           "<div class='user'>" +
           "<b>Owner:</b> " +
-          value.user.first_name +
+          "First_Name" +
           " " +
-          value.user.last_name +
+          "Last_Name" +
           "</div>" +
           "<div class='description'>" +
-          value.description +
+	  description +
           "</div>" +
           "</article>";
       });
-      $(".places").append(places);
-    },
-    "json"
-  );
+      $(".places").html(places);
+    }
+  });
 });
