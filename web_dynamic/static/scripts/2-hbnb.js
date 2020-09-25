@@ -9,8 +9,8 @@ $(document).ready(() => {
 		$(".amenities H4").html(Object.values(amenityId).join(', '));
 	});
 
-	$.get("http://0.0.0.0:5001/api/v1/status/", function (data) {
-		if (data.status === 200)
+	$.get("http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/status/", function (data) {
+		if (data.status === 'OK')
 			$('DIV#api_status').removeClass('disabled').addClass('available');
 		else
 			$('DIV#api_status').removeClass('available').addClass('disabled');
