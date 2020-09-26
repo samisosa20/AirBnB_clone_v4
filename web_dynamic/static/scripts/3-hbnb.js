@@ -31,8 +31,8 @@ $(document).ready(() => {
       let bath = "";
       let bed = "";
       $.each(data, function (index, value) {
-	description = value.description === null ? 'None' : value.description;
-	guest = value.max_guest > 1 ? 'Guests' : 'Guest';
+        description = value.description === null ? 'None' : value.description;
+        guest = value.max_guest > 1 ? 'Guests' : 'Guest';
         bath = value.number_bathrooms > 1 ? 'Bathrooms' : 'Bathroom';
         bed = value.number_rooms > 1 ? 'Bedrooms' : 'Bedroom';
         places =
@@ -59,12 +59,11 @@ $(document).ready(() => {
           "</div>" +
           "<div class='user'>" +
           "<b>Owner:</b> " +
-          "First_Name" +
-          " " +
-          "Last_Name" +
+          value.user_first_name +
+          " " + value.user_last_name +
           "</div>" +
           "<div class='description'>" +
-	  description +
+          description +
           "</div>" +
           "</article>";
       });
