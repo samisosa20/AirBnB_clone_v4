@@ -59,7 +59,6 @@ $(document).ready(() => {
     headers: { 'Content-Type': 'application/json' },
     dataType: 'json',
     success: function (data) {
-      // console.log(data);
       let places = '';
       let description = '';
       let guest = '';
@@ -70,68 +69,36 @@ $(document).ready(() => {
         guest = value.max_guest > 1 ? 'Guests' : 'Guest';
         bath = value.number_bathrooms > 1 ? 'Bathrooms' : 'Bathroom';
         bed = value.number_rooms > 1 ? 'Bedrooms' : 'Bedroom';
-        console.log(value);
         amenities = '';
-        console.log(value.amenities);
         for (let amenity of value.amenities) {
           amenities +=
             '<li><div class=' + amenity + '></div>' + amenity + '</li>';
         }
         places =
           places +
-          '<article>' +
-          "<div class='title_box'>" +
-          '<h2>' +
-          value.name +
-          '</h2>' +
-          "<div class='price_by_night'>" +
-          value.price_by_night +
-          '</div>' +
-          '</div>' +
-          "<div class='information'>" +
-          "<div class='max_guest'>" +
-          value.max_guest +
-          ' ' +
-          guest +
-          '</div>' +
-          "<div class='number_rooms'>" +
-          value.number_rooms +
-          ' ' +
-          bed +
-          '</div>' +
-          "<div class='number_bathrooms'>" +
-          value.number_bathrooms +
-          ' ' +
-          bath +
-          '</div>' +
-          '</div>' +
-          "<div class='user'>" +
-          '<b>Owner:</b> ' +
-          value.user_first_name +
-          ' ' +
-          value.user_last_name +
-          '</div>' +
-          "<div class='description'>" +
-          description +
-          '</div>' +
-          "<div class='amenities'>" +
-          "<h3 class='article_subtitle'>Amenities</h3>" +
-          '<ul>' +
-          amenities +
-          '</ul>' +
-          '</div>' +
-          '</div>' +
-          "<div class='reviews'>" +
-          "<h3 class='article_subtitle'>Reviews</h3>" +
-          '<ul>' +
-          '<li>' +
-          "<div class='review_item'>" +
-          '<h3>From Bob Dylan the 27th January 2017</h3>' +
-          "<p class='review_text'>Wow, what can I say?! I'm a real rol..</p>" +
-          '</div>' +
-          '</li>' +
-          '</ul>' +
-          '</div>' +
+          "<article id='" + value.id + "'>" +
+            "<div class='title_box'>" +
+              '<h2>' + value.name + '</h2>' +
+              "<div class='price_by_night'>" + value.price_by_night + '</div>' +
+            '</div>' +
+            "<div class='information'>" +
+              "<div class='max_guest'>" + value.max_guest + ' ' + guest + '</div>' +
+              "<div class='number_rooms'>" + value.number_rooms + ' ' + bed + '</div>' +
+              "<div class='number_bathrooms'>" + value.number_bathrooms + ' ' + bath + '</div>' +
+            '</div>' +
+            "<div class='user'>" +
+              '<b>Owner:</b> ' + value.user_first_name + ' ' + value.user_last_name + '</div>' +
+            "<div class='description'>" + description + '</div>' +
+            "<div class='amenities'>" +
+              "<h3>Amenities</h3>" +
+              "<ul>" + amenities + "</ul>" +
+            '</div>' +
+            "<div class='reviews'>" +
+              "<h3>Reviews</h3 >" +
+              "<SPAN onclick='showReviews(" + '"' + value.id + '"' + ")'>Show</SPAN>" +
+              '<ul>' +
+              '</ul>' +
+            '</div>' +
           '</article>';
       });
       $('.places').html(places);
@@ -164,63 +131,77 @@ $(document).ready(() => {
           bed = value.number_rooms > 1 ? 'Bedrooms' : 'Bedroom';
           places =
             places +
-            '<article>' +
+            "<article id='" + value.id + "'>" +
             "<div class='title_box'>" +
-            '<h2>' +
-            value.name +
-            '</h2>' +
-            "<div class='price_by_night'>" +
-            value.price_by_night +
-            '</div>' +
+              '<h2>' + value.name + '</h2>' +
+              "<div class='price_by_night'>" + value.price_by_night + '</div>' +
             '</div>' +
             "<div class='information'>" +
-            "<div class='max_guest'>" +
-            value.max_guest +
-            ' ' +
-            guest +
-            '</div>' +
-            "<div class='number_rooms'>" +
-            value.number_rooms +
-            ' ' +
-            bed +
-            '</div>' +
-            "<div class='number_bathrooms'>" +
-            value.number_bathrooms +
-            ' ' +
-            bath +
-            '</div>' +
+              "<div class='max_guest'>" + value.max_guest + ' ' + guest + '</div>' +
+              "<div class='number_rooms'>" + value.number_rooms + ' ' + bed + '</div>' +
+              "<div class='number_bathrooms'>" + value.number_bathrooms + ' ' + bath + '</div>' +
             '</div>' +
             "<div class='user'>" +
-            '<b>Owner:</b> ' +
-            value.user_first_name +
-            ' ' +
-            value.user_last_name +
-            '</div>' +
-            "<div class='description'>" +
-            description +
-            '</div>' +
+              '<b>Owner:</b> ' + value.user_first_name + ' ' + value.user_last_name + '</div>' +
+            "<div class='description'>" + description + '</div>' +
             "<div class='amenities'>" +
-            "<h3 class='article_subtitle'>Amenities</h3>" +
-            '<ul>' +
-            amenities +
-            '</ul>' +
-            '</div>' +
+              "<h3>Amenities</h3>" +
+              "<ul>" + amenities + "</ul>" +
             '</div>' +
             "<div class='reviews'>" +
-            "<h3 class='article_subtitle'>Reviews</h3>" +
-            '<ul>' +
-            '<li>' +
-            "<div class='review_item'>" +
-            '<h3>From Bob Dylan the 27th January 2017</h3>' +
-            "<p class='review_text'>Wow, what can I say?! I'm a real rol..</p>" +
+              "<h3>Reviews</h3 >" +
+              "<SPAN onclick='showReviews(" + '"' + value.id + '"' + ")'>Show</SPAN>" +
+              '<ul>' +
+              '</ul>' +
             '</div>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '</article>';
+          '</article>';
         });
         $('.places').html(places);
       },
     });
   });
 });
+
+
+function showReviews(place_id) {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+    $.get(
+      'http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/places/' + place_id + '/reviews',
+      function (data) {
+        console.log(data.length);
+        let reviews = "";
+        if (data.length > 0) {
+          $.each(data, function (index, value) {
+            let date = new Date(value.updated_at);
+            let day = date.getDate();
+            let month = date.getMonth();
+            let year = date.getFullYear();
+            let date_format = monthNames[month] + " " + day + " " + year;
+            reviews = reviews +
+              '<li>' +
+                "<div class='review_item'>" +
+                  '<h3>From Bob Dylan the ' + date_format + '</h3>' +
+                  "<p class='review_text'>" + value.text + '</p>' +
+                '</div>' +
+              '</li>';
+          });
+          $('#' + place_id + ' .reviews ul').html(reviews);
+        } else {
+          $('#' + place_id + ' .reviews ul').html('<li>Without reviews</li>');
+        }
+      }
+    );
+}

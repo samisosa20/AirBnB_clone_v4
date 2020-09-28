@@ -195,7 +195,7 @@ def places_search():
 
         # Add amenities to d
         place_amenities = []
-        for amenity in place.amenities:
+        for amenity in p.amenities:
             place_amenities.append(amenity.name)
         d['amenities'] = place_amenities
 
