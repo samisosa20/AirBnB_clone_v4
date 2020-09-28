@@ -1,5 +1,18 @@
 $(document).ready(() => {
   const amenityId = {};
+  const statesId = {};
+  const citiesId = {};
+
+  // API status
+  $.get('http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/status/', function (data) {
+    if (data.status === 'OK') {
+      $('DIV#api_status').removeClass('disabled').addClass('available');
+    } else {
+      $('DIV#api_status').removeClass('available').addClass('disabled');
+    }
+  });
+
+  // Filter checkbox amenities
   $('.amenities INPUT').change(function () {
     if (this.checked) {
       amenityId[$(this).attr('data-id')] = $(this).attr('data-name');
@@ -9,12 +22,24 @@ $(document).ready(() => {
     $('.amenities H4').html(Object.values(amenityId).join(', '));
   });
 
-  $.get('http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/status/', function (data) {
-    if (data.status === 'OK') {
-      $('DIV#api_status').removeClass('disabled').addClass('available');
+  // Filter checkbox states
+  $('.locations ul li h2 INPUT').change(function () {
+    if (this.checked) {
+      statesId[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
-      $('DIV#api_status').removeClass('available').addClass('disabled');
+      delete statesId[$(this).attr('data-id')];
     }
+    $('.locations H4').html(Object.values(statesId).join(', ') + ', ' + Object.values(citiesId).join(', '));
+  });
+
+  // Filter checkbox cities
+  $('.locations ul li ul li INPUT').change(function () {
+    if (this.checked) {
+      citiesId[$(this).attr('data-id')] = $(this).attr('data-name');
+    } else {
+      delete citiesId[$(this).attr('data-id')];
+    }
+    $('.locations H4').html(Object.values(citiesId).join(', ') + ', ' + Object.values(statesId).join(', '));
   });
 
   $.ajax({
@@ -76,7 +101,7 @@ $(document).ready(() => {
     $.ajax({
       url: 'http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/places_search/',
       type: 'post',
-      data: JSON.stringify({ amenities: amenityId }),
+      data: JSON.stringify({ amenities: amenityId, cities: citiesId, states: statesId }),
       headers: { 'Content-Type': 'application/json' },
       dataType: 'json',
       success: function (data) {

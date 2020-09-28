@@ -12,7 +12,11 @@ $(document).ready(() => {
   $.get('http://ed0050123a1d.19.hbtn-cod.io:5000/api/v1/status/', function (
     data
   ) {
-    if (data.status === 'OK') { $('DIV#api_status').removeClass('disabled').addClass('available'); } else $('DIV#api_status').removeClass('available').addClass('disabled');
+    if (data.status === 'OK') {
+      $('DIV#api_status').removeClass('disabled').addClass('available');
+    } else {
+      $('DIV#api_status').removeClass('available').addClass('disabled');
+    }
   });
 
   $.ajax({
